@@ -1,0 +1,9 @@
+runtime: nodejs16
+
+handlers:
+- url: /
+  static_files: dist/event-search-app-ng/index.html
+  upload: dist/event-search-app-ng/index.html
+
+- url: /
+  static_dir: dist/event-search-app-ng

@@ -1,0 +1,57 @@
+<div class="container-sm">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Events Search</h1>
+                    <hr class="search-line">
+
+                    <form ngNativeValidate (ngSubmit)="submitForm()" #myForm="ngForm">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="text-info required" for="id">Keyword</label>
+                                <input [(ngModel)]="event.keyword" type="text" name="keyword" class="form-control" id=""
+                                    aria-describedby="idHelp" placeholder="Keyword" required>
+                                <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="text-info" for="name">Distance</label>
+                                <input [(ngModel)]="event.distance" type="number" name="distance" class="form-control"
+                                    id="distance" aria-describedby="nameHelp" placeholder="20">
+                            </div>
+                            <div class="col">
+                                <label class="text-info required" for="category">Category:</label>
+                                <select [(ngModel)]="event.category" name="category" class="form-select" id="floatingSelect" aria-label="Floating label select example" required>
+                                    <option selected>Category</option>
+                                    <option value="all">All</option>
+                                    <option value="music">Music</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="comedy">Comedy</option>
+                                    <option value="theater">Theater</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="text-info required" for="id">Location</label>
+                                <input [(ngModel)]="event.location" type="text" name="keyword" class="form-control" id=""
+                                    aria-describedby="idHelp" placeholder="Location" required>
+                                <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- <button type="submit" [disabled]="!myForm.valid">Submit</button> -->
+                            <div class="col">
+                                <button class="btn btn-primary btn-md" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- <button class="btn btn-primary" (click)="eventSearch()">Create contact</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
