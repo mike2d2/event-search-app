@@ -42,6 +42,14 @@
                                 <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
                             </div>
                         </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col">
+                                <input class="form-check-input auto-loc-check" type="checkbox" value="" id="flexCheckDefault" (change)="onCheckboxChange($event)">
+                                <label class="text-info" for="flexCheckDefault">
+                                    Auto-detect your location
+                                </label>
+                            </div>
+                        </div>
                         <div class="row">
                             <!-- <button type="submit" [disabled]="!myForm.valid">Submit</button> -->
                             <div class="col">

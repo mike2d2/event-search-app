@@ -16,7 +16,8 @@ export class EventsTableComponent implements OnInit {
   ngOnInit() {
     this.events = this.dataService.getEvents();    
   }
-  public selectContact(event){
+
+  public selectEvent(event){
     this.selectedEvent = event;
   }
 }

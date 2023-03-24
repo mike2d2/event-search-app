@@ -9,7 +9,10 @@ import { DataService } from '../data.service';
 })
 export class EventSearchComponent implements OnInit {
 
-  event : {keyword, distance, category, location} = {keyword: '', distance: null, category: "", location: ""};
+  event : {keyword, distance, category, location} = {keyword: 'dodger', distance: 23, category: "sports", location: "908 everett st los angeles"};
+  isChecked: boolean = false;
+  latitude:number = NaN;
+  longitude:number = NaN;
 
   constructor(public dataService: DataService) { }
 
@@ -27,9 +30,31 @@ export class EventSearchComponent implements OnInit {
     //   console.log('Form submitted!');
     // }
     console.log(this.event);
+
+    if (this.isChecked) {
+      this.event.location = this.latitude + ',' + this.longitude
+    } 
+    
     this.dataService.eventSearch(this.event);
 
-    this.event = {keyword: '', distance: null, category: "", location: ""};
+    this.event = {keyword: 'dodger', distance: 23, category: "sports", location: "908 everett st los angeles"} //{keyword: '', distance: null, category: "", location: ""};
+  }
+
+  onCheckboxChange(event) {
+    this.isChecked = event.target.checked;
+    if (this.isChecked) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    } else {
+      this.latitude = NaN;
+      this.longitude = NaN;
+    }
   }
 }
 
