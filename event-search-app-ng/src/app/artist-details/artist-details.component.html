@@ -4,43 +4,52 @@
             <li data-bs-target="#carouselExampleControls" *ngFor="let artist of artists; let i = index"
                 [attr.data-bs-slide-to]="i" [class.active]="i === 0"></li>
         </ol>
-        <div class="carousel-inner">
-            <div *ngFor="let artist of artists; let i = index" [class.active]="i === 0" class="carousel-item">
-                <div class="row align-items-center m-3">
-                    <div class="col justify-content-center">
-                        <img [src]="artist.artistImgUrl" class="img-fluid">
-                        <h4>{{artist.artistName}}</h4>
-                    </div>
-                    <div class="col">
-                        <h5>Popularity</h5>
-                        <p>{{artist.popularity}}</p>
-                    </div>
-                    <div class="col">
-                        <h5>Followers</h5>
-                        <p>{{artist.followers}}</p>
-                    </div>
-                    <div class="col">
-                        <h5>Spotify Link</h5>
-                        <a href="{{artist.spotifyUrl}}" target="_blank">
-                            <img class="img-fluid border-0" style="width: 50%;" src="./assets/spotify_icon.png">
-                        </a>
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div *ngFor="let image of artist.albums" class="col">
-                        <img class="img-fluid border-0" [src]="image.imageUrl" alt="">
+        <div class="row">
+            <div class="col-1">
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+            </div>
+            <div class="col-10 mb-3">
+                <div class="carousel-inner">
+                    <div *ngFor="let artist of artists; let i = index" [class.active]="i === 0" class="carousel-item">
+                        <div class="row align-items-center m-3">
+                            <div class="col justify-content-center">
+                                <img [src]="artist.artistImgUrl" class="img-fluid">
+                                <h4>{{artist.artistName}}</h4>
+                            </div>
+                            <div class="col">
+                                <h5>Popularity</h5>
+                                <p>{{artist.popularity}}</p>
+                            </div>
+                            <div class="col">
+                                <h5>Followers</h5>
+                                <p>{{artist.followers}}</p>
+                            </div>
+                            <div class="col">
+                                <h5>Spotify Link</h5>
+                                <a href="{{artist.spotifyUrl}}" target="_blank">
+                                    <img class="img-fluid border-0" style="width: 50%;" src="./assets/spotify_icon.png">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div *ngFor="let image of artist.albums" class="col">
+                                <img class="img-fluid border-0" [src]="image.imageUrl" alt="">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-1">
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </a>
+
     </div>
 
 </div>
