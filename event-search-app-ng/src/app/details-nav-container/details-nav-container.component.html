@@ -1,0 +1,21 @@
+<div class="container mb-3">
+    <div class="card text-center">
+        <h3 class="card-title text-white m-4">{{event.eventName}}</h3>
+        <ul class="nav justify-content-center">
+            <li class="nav-item" *ngFor="let item of navigationItems" 
+                (click)="selectNavItem(item)">
+                <a class="nav-link" [class.active]="item === selectedNavItem">{{item}}</a>
+            </li>
+        </ul>
+        <div class="content">
+            <ng-container *ngIf="selectedNavItem === 'Event'">
+                <app-event-details></app-event-details>
+            </ng-container>
+            <ng-container *ngIf="selectedNavItem === 'Artist/Team'">
+                <app-artist-details></app-artist-details>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+

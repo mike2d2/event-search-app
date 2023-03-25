@@ -1,12 +1,26 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 interface Event {
+  id: string,
   eventName: string,
   dateTime: string,
   iconUrl: string,
   genre: string,
-  venue: string
+  venue: string,
+  seatmapUrl: string,
+  artistTeam: string,
+  nameSegSubGenre: string,
+  price: string,
+  status: string,
+  buyUrl: string,
+  attractions: Attraction[]
+}
+
+interface Attraction {
+  id: string,
+  name: string
 }
 
 @Injectable({
@@ -15,6 +29,37 @@ interface Event {
 export class DataService {
 
   events: Array<Event> = [];
+  selectedEvent: any;
+  private _event = new BehaviorSubject<Event>({
+    id: '',
+    eventName: '',
+    dateTime: '',
+    iconUrl: '',
+    genre: '',
+    venue: '',
+    seatmapUrl: '',
+    artistTeam: '',
+    nameSegSubGenre: '',
+    price: '',
+    status: '',
+    buyUrl: '',
+    attractions: [{
+      id: '',
+      name: ''
+    }],
+  });
+
+  setValue(event: Event): void {
+    this._event.next(event);
+  }
+
+  get event$(): Observable<Event> {
+    return this._event.asObservable();
+  }
+
+  getSelectedEvent(): any {
+    return this._event.value
+  }
 
   constructor() { }
 
@@ -34,37 +79,53 @@ export class DataService {
       },
     });
     console.log(JSON.stringify(response.data))
-    // this.events = data
 
-    // event.dates.start.localDate + '\n' + event.dates.start.localTime,
-    // `<img src=${event.images[0].url} style='height:60px; width:90px'></img>`,
-    // '<a class="name-link" id=' + event.id + 'href="#" onclick="eventClick(\''+ event.id + '\')">' + event.name + '</a>',
-    // event.classifications[0].genre.name,
-    // event._embedded.venues[0].name
-    // let tableEvents:Event[] = []
-    // const tableEvents: Event[] = data._embedded.events.map((event: any) => ({
-    //   name: event.name,
-    //   date: event.dates.start.localDate,
-    //   location: `${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}, ${event._embedded.venues[0].state.stateCode}`
-    // }));
-    // const response = await axios.get<TicketmasterResponse>('https://app.ticketmaster.com/discovery/v2/events.json?apikey=YOUR_API_KEY');
     const data = response.data;
-    // this.events = data._embedded.events.map((event) => ({
-    //   name: event.name,
-    //   date: event.dates.start.dateTime,
-    //   location: `${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}, ${event._embedded.venues[0].state.stateCode}`,
-    //   iconUrl: event.images.length > 0 ? event.images[0].url : '',
-    //   genre: event.classifications.length > 0 ? event.classifications[0].genre.name : '',
-    //   venue: event._embedded.venues.length > 0 ? event._embedded.venues[0].name : ''
-    // }));
+
+    this.events.length = 0
     for (let event of data) {
       this.events.push(
         {
+          id: event.id,
           eventName: event.eventName,
           dateTime: event.dateTime,
           iconUrl: event.iconUrl,
           genre: event.genre,
-          venue: event.venue
+          venue: event.venue,
+          seatmapUrl: event.seatmapUrl,
+          artistTeam: event.artistTeam,
+          nameSegSubGenre: event.nameSegSubGenre,
+          price: event.price,
+          status: event.status,
+          buyUrl: event.buyUrl,
+          attractions: event.attractions
+        }
+      );
+    }
+
+    return this.events;
+  }
+
+  attractions:Attraction[] = []
+
+  public async getAttractionsAtEventId(eventId:string){
+    const apiUrl = 'http://localhost:3000';
+
+    const response = await axios.get<Attraction[]>(`${apiUrl}/getEventbyId`, {
+      params: {
+        id:eventId
+      },
+    });
+    console.log(JSON.stringify(response.data))
+
+    const data = response.data;
+
+    this.attractions.length = 0
+    for (let attraction of data) {
+      this.attractions.push(
+        {
+          id: attraction.id,
+          name: attraction.name,
         }
       );
     }

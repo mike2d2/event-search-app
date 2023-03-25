@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
 })
 export class EventSearchComponent implements OnInit {
 
-  event : {keyword, distance, category, location} = {keyword: 'dodger', distance: 23, category: "sports", location: "908 everett st los angeles"};
+  event : {keyword, distance, category, location} = {keyword: 'taylor', distance: 23, category: "music", location: "908 everett st los angeles"};
   isChecked: boolean = false;
   latitude:number = NaN;
   longitude:number = NaN;
@@ -33,11 +33,11 @@ export class EventSearchComponent implements OnInit {
 
     if (this.isChecked) {
       this.event.location = this.latitude + ',' + this.longitude
-    } 
+    }
     
     this.dataService.eventSearch(this.event);
 
-    this.event = {keyword: 'dodger', distance: 23, category: "sports", location: "908 everett st los angeles"} //{keyword: '', distance: null, category: "", location: ""};
+    this.event = {keyword: 'taylor', distance: 23, category: "music", location: "908 everett st los angeles"} //{keyword: '', distance: null, category: "", location: ""};
   }
 
   onCheckboxChange(event) {

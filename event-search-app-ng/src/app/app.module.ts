@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { DetailsNavContainerComponent } from './details-nav-container/details-nav-container.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { ArtistDetailsComponent } from './artist-details/artist-details.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    DetailsNavContainerComponent,
+    EventDetailsComponent,
+    ArtistDetailsComponent,
   ],
   imports: [
     BrowserModule,

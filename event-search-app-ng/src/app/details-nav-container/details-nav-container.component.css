@@ -1,0 +1,25 @@
+.card {
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+    backdrop-filter: blur(14px);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav {
+    background-color: mediumaquamarine;
+}
+
+.active {
+    border-bottom: 2px solid blue;
+}
+
+.nav-item a:hover {  cursor: pointer }
+
+.nav-link {
+    color: white;
+}
+
+.container {
+    max-width: 750px;
+}

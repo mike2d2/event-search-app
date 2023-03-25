@@ -1,0 +1,20 @@
+h5 {
+    color: mediumaquamarine;
+    margin: 0px;
+}
+
+p {
+    color: white;
+}
+
+.link-primary {
+    text-decoration: none;
+}
+
+.status {
+    width: 50%;
+    border-radius: 0.5rem;
+    margin: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
