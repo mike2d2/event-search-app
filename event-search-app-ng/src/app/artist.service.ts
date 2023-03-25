@@ -3,8 +3,7 @@ import axios from 'axios';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 interface Album {
-  albumName: string,
-  albumImgUrl: string
+  imageUrl: string
 }
 
 interface Artist {
@@ -14,6 +13,7 @@ interface Artist {
   popularity: string,
   followers: string,
   spotifyUrl: string,
+  albums: Album[]
 }
 
 @Injectable({
@@ -21,28 +21,29 @@ interface Artist {
 })
 export class ArtistService {
 
-  artists: Array<Artist> = [];
-  private _selectedArtist = new BehaviorSubject<Artist>({
+  // artists: Array<Artist> = [];
+  private _artists = new BehaviorSubject<Array<Artist>>([{
     id: '',
     artistName: '',
     artistImgUrl: '',
     popularity: '',
     followers: '',
     spotifyUrl: '',
-  });
+    albums: []
+  }]);
 
-  setValue(selectedArtist: Artist): void {
-    this._selectedArtist.next(selectedArtist);
+  setValue(artists: Artist[]): void {
+    this._artists.next(artists);
   }
 
-  get selectedArtist$(): Observable<Artist> {
-    return this._selectedArtist.asObservable();
+  get artists$(): Observable<Artist[]> {
+    return this._artists.asObservable();
   }
 
   constructor() { }
 
   public clearArtists() {
-    this.artists.length = 0
+    this._artists.value.length = 0
   }
 
   public async artistSearch(keywords: string[]) {
@@ -53,7 +54,6 @@ export class ArtistService {
     //     keyword: keyword,
     //   },
     // });
-    this.artists.length = 0
 
     const promises = keywords.map(keyword => {
       return axios.get(`${apiUrl}/getArtists`, {
@@ -63,11 +63,15 @@ export class ArtistService {
       });
     });
 
+    let artists:Artist[] = []
+
     return Promise.all(promises).then(response => {
       let data = response.map(res => res.data);
 
       for (let artist of data) {
-        this.artists.push(
+        let albums = artist.albumInfo.map(info => { return {imageUrl: info.imageUrl}})
+
+        artists.push(
           {
             id: artist.id,
             artistName: artist.artistName,
@@ -75,11 +79,14 @@ export class ArtistService {
             popularity: artist.popularity,
             followers: artist.followers,
             spotifyUrl: artist.spotifyUrl,
+            albums: albums,
           }
         );
       }
 
-      return this.artists;
+      this.setValue(artists)
+
+      return
     });
 
     // const promise = axios.get<Artist>(`${apiUrl}/getArtists`, {
@@ -108,6 +115,6 @@ export class ArtistService {
   }
 
   public getArtists() {
-    return this.artists
+    return this._artists.value
   }
 }

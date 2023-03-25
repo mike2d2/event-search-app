@@ -97,28 +97,36 @@ app.get('/getArtists', async (req, res) => {
   //   });
 });
 
-function buildResponse(artistKeyword, res) {
-
+function buildResponse(res) {
+  artistKeyword = searchedArtists.pop()
 
   // Search artists whose name contains 'Love'
   spotifyApi.searchArtists(artistKeyword)
-    .then(function (data) {
+    .then(async function (data) {
       console.log('Search artists by "Love"', data.body);
 
-      for (let artist of data.body.artists.items) {
-        if (artistKeyword.toLowerCase() == artist.name.toLowerCase()) {
-          let artist_response = {
-            id: artist.id,
-            artistName: artist.name,
-            artistImgUrl: artist.images.length > 0 ? artist.images[0].url : '',
-            popularity: artist.popularity,
-            followers: artist.followers.total,
-            spotifyUrl: artist.external_urls.spotify,
-          }
-          res.json(artist_response)
-          return
-        }
+      let artist = data.body.artists.items[0]
+
+      // get album imageurl to inject into response
+      const albumData = await spotifyApi.getArtistAlbums(artist.id, { limit: 3 });
+      albums = albumData.body.items;
+      let albumInfo = []
+      for (album of albums) {
+        imageUrl = album.images[0].url
+        albumInfo.push({imageUrl: imageUrl})
       }
+
+      let artist_response = {
+        id: artist.id,
+        artistName: artist.name,
+        artistImgUrl: artist.images.length > 0 ? artist.images[0].url : '',
+        popularity: artist.popularity,
+        followers: artist.followers.total,
+        spotifyUrl: artist.external_urls.spotify,
+        albumInfo: albumInfo
+      }
+      res.json(artist_response)
+      return
       
     }, function (err) {
       console.error(err);
@@ -129,6 +137,8 @@ app.get('/getEventbyId', async (req, res) => {
   const id = req.query
   const tm_api_key = 'Ehkv5SzqLQGAXzUT2ZwqPr9eYrdHfRFz';
   const baseUrl = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${tm_api_key}`;
+  // rZ7HnEZ1A3J9_A
+  // https://app.ticketmaster.com/discovery/v2/events/rZ7HnEZ1A3J9_A.json?apikey=Ehkv5SzqLQGAXzUT2ZwqPr9eYrdHfRFz
 
   const response = await axios.get(baseUrl);
   const { data } = response;
@@ -178,6 +188,8 @@ app.get('/getEvents', async (req, res) => {
             name: attraction.name
           })
         }
+      } else {
+        console.log('no events found for ' + event.name)
       }
 
       events.push({

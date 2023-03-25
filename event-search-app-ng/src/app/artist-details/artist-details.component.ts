@@ -2,13 +2,19 @@ import { ArtistService } from './../artist.service';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 
+
+interface Album {
+  imageUrl: string
+}
+
 interface Artist {
   id: string,
   artistName: string,
   artistImgUrl: string,
   popularity: string,
   followers: string,
-  spotifyUrl: string
+  spotifyUrl: string,
+  albums: Album[]
 }
 
 interface Attraction {
@@ -24,19 +30,19 @@ interface Attraction {
 export class ArtistDetailsComponent implements OnInit {
   event:any;
   artists: Artist[] = [];
-  artist: any;
+  // artist: any;
   spotifyImgUrl = 'https://e7.pngegg.com/pngimages/152/944/png-clipart-spotify-icon-spotify-music-playlist-computer-icons-streaming-media-spotify-text-logo.png'
 
   constructor(public artistService: ArtistService, public dataService: DataService) {}
   ngOnInit(): void {
     // this.event = this.dataService.getSelectedEvent()
 
-    // this.dataService.event$.subscribe(value => {
-    //   this.event = value;
-    //   this.updateArtists();
-    // });
+    this.artistService.artists$.subscribe(value => {
+      this.artists = value;
+      // this.artist = this.artists[0]
+    });
     this.artists = this.artistService.getArtists()
-    this.artist = this.artists[0]
+    // this.artist = this.artists[0]
   }
 
   updateArtists(): void {
