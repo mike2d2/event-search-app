@@ -105,6 +105,11 @@ function buildResponse(res) {
     .then(async function (data) {
       console.log('Search artists by "Love"', data.body);
 
+      if (data.body.artists.items.length == 0) {
+        res.json([])
+        return
+      }
+
       let artist = data.body.artists.items[0]
 
       // get album imageurl to inject into response
@@ -151,6 +156,11 @@ app.get('/getEvents', async (req, res) => {
 
   const { keyword, location, category, distance } = req.query;
 
+  if (location == 'NaN,NaN') {
+    res.json([]);
+    return
+  }
+
 
   if (location) {
     const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
@@ -162,7 +172,7 @@ app.get('/getEvents', async (req, res) => {
   } else {
     lat = null;
     lon = null
-  }
+  } 
 
   const tmEventQueryUrl = tmEventUrlBuilder(keyword, lat, lng, category, distance);
   const response = await axios.get(tmEventQueryUrl);
@@ -212,6 +222,22 @@ app.get('/getEvents', async (req, res) => {
   }
 
   res.json(events);
+});
+
+// used chatgpt for this code
+app.get('/api/suggest/', async (req, res) => {
+  const tm_api_key = 'Ehkv5SzqLQGAXzUT2ZwqPr9eYrdHfRFz';
+  const { keyword } = req.query;
+  try {
+    const response = await axios.get(
+      `https://app.ticketmaster.com/discovery/v2/suggest?apikey=${tm_api_key}&keyword=${encodeURIComponent(keyword)}`
+    );
+    const suggestions = response.data._embedded?.attractions?.map((attraction) => attraction.name) ?? [];
+    res.send(suggestions);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error fetching suggestions');
+  }
 });
 
 function tmEventUrlBuilder(keyword, lat, lon, category, distance) {

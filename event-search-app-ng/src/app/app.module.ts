@@ -13,6 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { DetailsNavContainerComponent } from './details-nav-container/details-nav-container.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ArtistDetailsComponent } from './artist-details/artist-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,6 +39,13 @@ import { ArtistDetailsComponent } from './artist-details/artist-details.componen
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

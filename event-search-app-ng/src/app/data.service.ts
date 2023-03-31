@@ -30,6 +30,9 @@ export class DataService {
 
   events: Array<Event> = [];
   selectedEvent: any;
+  suggestUrl = '/api/suggest'
+  suggestions:string[] = []
+  apiUrl = 'http://localhost:3000';
   private _event = new BehaviorSubject<Event>({
     id: '',
     eventName: '',
@@ -68,9 +71,8 @@ export class DataService {
   }
 
   public async eventSearch(event: {keyword, distance, category, location}){
-    const apiUrl = 'http://localhost:3000';
 
-    const response = await axios.get<Event[]>(`${apiUrl}/getEvents`, {
+    const response = await axios.get<Event[]>(`${this.apiUrl}/getEvents`, {
       params: {
         keyword: event.keyword,
         distance: event.distance,
@@ -106,12 +108,30 @@ export class DataService {
     return this.events;
   }
 
+  getSuggestions(keyword):string[] {
+      // call the backend API to get suggestions
+      axios.get<string[]>(`${this.apiUrl}/api/suggest/`, {
+        params: {
+          keyword:keyword
+        },
+      })
+        .then((response) => {
+          this.suggestions = response.data;
+          return this.suggestions
+        })
+        .catch((error) => {
+          console.log(error);
+          return []
+        });
+
+      return []
+  }
+
   attractions:Attraction[] = []
 
   public async getAttractionsAtEventId(eventId:string){
-    const apiUrl = 'http://localhost:3000';
 
-    const response = await axios.get<Attraction[]>(`${apiUrl}/getEventbyId`, {
+    const response = await axios.get<Attraction[]>(`${this.apiUrl}/getEventbyId`, {
       params: {
         id:eventId
       },

@@ -9,9 +9,27 @@
                     <form ngNativeValidate (ngSubmit)="submitForm()" #myForm="ngForm">
                         <div class="row mb-3">
                             <div class="col">
-                                <label class="text-info required" for="id">Keyword</label>
-                                <input [(ngModel)]="event.keyword" type="text" name="keyword" class="form-control" id="keyword"
-                                    aria-describedby="idHelp" placeholder="Keyword" required>
+                                <!-- <label class="text-info required" for="id">Keyword</label>
+                                <input [(ngModel)]="event.keyword" (input)="getSuggestions()" type="text" name="keyword" class="form-control" id="keyword"
+                                    aria-describedby="idHelp" placeholder="" required> -->
+                                    <!-- <input matInput [formControl]="keywordCtrl" [(ngModel)]="event.keyword" (input)="getSuggestions()" type="text" name="keyword" class="form-control" id="keyword"
+                                    aria-describedby="idHelp" placeholder="" required> -->
+                                    <mat-form-field class="my-form-field">
+                                        <input class="form-control" type="text" matInput placeholder="Keyword" [(ngModel)]="event.keyword" [matAutocomplete]="auto"
+                                          [formControl]="keywordCtrl" placeholder="" required>
+                                        <button *ngIf="selectedMovie" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
+                                          <mat-icon>close</mat-icon>
+                                        </button>
+                                        <mat-autocomplete [panelWidth]="400" #auto="matAutocomplete" (optionSelected)="onSelected()"
+                                          [displayWith]="displayWith">
+                                          <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                          <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let movie of filteredMovies" [value]="movie">
+                                              <span><b>{{movie}}</b> ({{movie}})</span>
+                                            </mat-option>
+                                          </ng-container>
+                                        </mat-autocomplete>
+                                      </mat-form-field>
                                 <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
                             </div>
                         </div>
@@ -19,12 +37,12 @@
                             <div class="col">
                                 <label class="text-info" for="name">Distance</label>
                                 <input [(ngModel)]="event.distance" type="number" name="distance" class="form-control"
-                                    id="distance" aria-describedby="nameHelp" placeholder="20">
+                                    id="distance" aria-describedby="nameHelp" placeholder="10">
                             </div>
                             <div class="col">
                                 <label class="text-info required" for="category">Category:</label>
                                 <select [(ngModel)]="event.category" name="category" class="form-select" id="floatingSelect" aria-label="Floating label select example" required>
-                                    <option selected>Category</option>
+                                    <option selected>Default</option>
                                     <option value="all">All</option>
                                     <option value="music">Music</option>
                                     <option value="sports">Sports</option>
@@ -37,14 +55,14 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label class="text-info required" for="id">Location</label>
-                                <input [(ngModel)]="event.location" type="text" name="location" class="form-control" id=""
-                                    aria-describedby="idHelp" placeholder="Location" required>
+                                <input [ngClass]="{'disabled-input': isLocationDisabled}" [(ngModel)]="event.location" [disabled]="isLocationDisabled" type="text" name="location" class="form-control" id=""
+                                    aria-describedby="idHelp" placeholder="" required>
                                 <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="col">
-                                <input class="form-check-input auto-loc-check" type="checkbox" value="" id="flexCheckDefault" (change)="onCheckboxChange($event)">
+                                <input class="form-check-input auto-loc-check" type="checkbox" (change)="isLocationDisabled ? enableInput() : disableInput()" value="isLocationDisabled" id="flexCheckDefault" (change)="onCheckboxChange($event)">
                                 <label class="text-info" for="flexCheckDefault">
                                     Auto-detect your location
                                 </label>
@@ -52,10 +70,13 @@
                         </div>
                         <div class="row">
                             <!-- <button type="submit" [disabled]="!myForm.valid">Submit</button> -->
-                            <div class="col">
-                                <button class="btn btn-primary btn-md" type="submit">Submit</button>
+                            <!-- <div class="col-4"></div> -->
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button class="btn btn-primary mr-md-4" type="submit">Submit</button>
+                                <button style="margin-left: 10px;" class="btn btn-danger ml-2 btn-spacer" type="reset"  (click)="clearForm()">Clear</button>
                             </div>
                         </div>
+                        
                     </form>
                     <!-- <button class="btn btn-primary" (click)="eventSearch()">Create contact</button> -->
                 </div>

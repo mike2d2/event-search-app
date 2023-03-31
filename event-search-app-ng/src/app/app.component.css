@@ -1,9 +1,32 @@
 header {
-    height: 100%;
     width: 100%;
-    background:url('../assets/dark_concert.jpg')no-repeat center center fixed; 
+    background:url('../assets/dark_concert.jpg') center center fixed; 
     -webkit-background-size:cover;
     -o-background-size:cover;
     -moz-background-size:cover;
     background-size:cover;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background:url('../assets/dark_concert.jpg') center center fixed; 
+    -webkit-background-size:cover;
+    -o-background-size:cover;
+    -moz-background-size:cover;
+    background-repeat: repeat;
+    background-size:cover;
+    padding-bottom: 20rem;
+}
+
+footer {
+    height: 100%;
+    width: 100%;
+    background:url('../assets/dark_concert.jpg') center center fixed; 
+    -webkit-background-size:cover;
+    -o-background-size:cover;
+    -moz-background-size:cover;
+    background-size:cover;
+    height: 50px;
+    max-height: 50px;
 }
