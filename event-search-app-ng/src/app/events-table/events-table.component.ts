@@ -26,5 +26,31 @@ export class EventsTableComponent implements OnInit {
 
     this.artistService.artistSearch(this.selectedEvent.attractions.map(attraction => attraction.name))
   }
+
+  // from chatgpt
+  currentSortColumn: string = '';
+  isSortReverse: boolean = false;
+
+  sort(column: string) {
+    if (column === this.currentSortColumn) {
+      this.isSortReverse = !this.isSortReverse;
+    } else {
+      this.currentSortColumn = column;
+      this.isSortReverse = false;
+    }
+
+    this.events.sort((a, b) => {
+      const aValue = a[column].toLowerCase();
+      const bValue = b[column].toLowerCase();
+
+      if (aValue < bValue) {
+        return this.isSortReverse ? 1 : -1;
+      } else if (aValue > bValue) {
+        return this.isSortReverse ? -1 : 1;
+      } else {
+        return 0;
+      }
+    });
+  }
 }
 

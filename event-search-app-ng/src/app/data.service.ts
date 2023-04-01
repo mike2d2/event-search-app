@@ -6,6 +6,7 @@ interface Event {
   id: string,
   eventName: string,
   dateTime: string,
+  date: string,
   iconUrl: string,
   genre: string,
   venue: string,
@@ -15,7 +16,8 @@ interface Event {
   price: string,
   status: string,
   buyUrl: string,
-  attractions: Attraction[]
+  attractions: Attraction[],
+  venueObj: any
 }
 
 interface Attraction {
@@ -37,6 +39,7 @@ export class DataService {
     id: '',
     eventName: '',
     dateTime: '',
+    date: '',
     iconUrl: '',
     genre: '',
     venue: '',
@@ -50,7 +53,22 @@ export class DataService {
       id: '',
       name: ''
     }],
+    venueObj: {}
   });
+
+  favoriteEvents:Event[] = []
+
+  getFavorites() : Event[] {
+    return this.favoriteEvents
+  }
+
+  addFavorite(): void {
+    this.favoriteEvents.push(this.getSelectedEvent())
+  }
+
+  removeFavorite(eventId:string):void {
+    this.favoriteEvents = this.favoriteEvents.filter((event) => event.id !== eventId);
+  }
 
   setValue(event: Event): void {
     this._event.next(event);
@@ -62,6 +80,10 @@ export class DataService {
 
   getSelectedEvent(): any {
     return this._event.value
+  }
+
+  isFavorite():boolean {
+    return this.favoriteEvents.some(event => event.id === this._event.value.id);
   }
 
   constructor() { }
@@ -91,6 +113,7 @@ export class DataService {
           id: event.id,
           eventName: event.eventName,
           dateTime: event.dateTime,
+          date: event.date,
           iconUrl: event.iconUrl,
           genre: event.genre,
           venue: event.venue,
@@ -100,7 +123,8 @@ export class DataService {
           price: event.price,
           status: event.status,
           buyUrl: event.buyUrl,
-          attractions: event.attractions
+          attractions: event.attractions,
+          venueObj: event.venueObj
         }
       );
     }

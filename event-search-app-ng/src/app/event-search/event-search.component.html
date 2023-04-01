@@ -14,7 +14,8 @@
                                     aria-describedby="idHelp" placeholder="" required> -->
                                     <!-- <input matInput [formControl]="keywordCtrl" [(ngModel)]="event.keyword" (input)="getSuggestions()" type="text" name="keyword" class="form-control" id="keyword"
                                     aria-describedby="idHelp" placeholder="" required> -->
-                                    <mat-form-field class="my-form-field">
+                                    <!-- <mat-form-field class="my-form-field"> -->
+                                        <label class="text-info required" for="id">Keyword</label>
                                         <input class="form-control" type="text" matInput placeholder="Keyword" [(ngModel)]="event.keyword" [matAutocomplete]="auto"
                                           [formControl]="keywordCtrl" placeholder="" required>
                                         <button *ngIf="selectedMovie" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
@@ -22,14 +23,16 @@
                                         </button>
                                         <mat-autocomplete [panelWidth]="400" #auto="matAutocomplete" (optionSelected)="onSelected()"
                                           [displayWith]="displayWith">
-                                          <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                          <mat-option *ngIf="isLoading" class="is-loading">
+                                            <mat-spinner diameter="20"></mat-spinner>
+                                          </mat-option>
                                           <ng-container *ngIf="!isLoading">
                                             <mat-option *ngFor="let movie of filteredMovies" [value]="movie">
-                                              <span><b>{{movie}}</b> ({{movie}})</span>
+                                              <span>{{movie}}</span>
                                             </mat-option>
                                           </ng-container>
                                         </mat-autocomplete>
-                                      </mat-form-field>
+                                      <!-- </mat-form-field> -->
                                 <!-- <small id="idHelp" class="form-text text-muted">Enter your contact’s ID</small> -->
                             </div>
                         </div>
@@ -71,7 +74,7 @@
                         <div class="row">
                             <!-- <button type="submit" [disabled]="!myForm.valid">Submit</button> -->
                             <!-- <div class="col-4"></div> -->
-                            <div class="col-md-6 offset-md-3 text-center">
+                            <div class="d-flex justify-content-center">
                                 <button class="btn btn-primary mr-md-4" type="submit">Submit</button>
                                 <button style="margin-left: 10px;" class="btn btn-danger ml-2 btn-spacer" type="reset"  (click)="clearForm()">Clear</button>
                             </div>

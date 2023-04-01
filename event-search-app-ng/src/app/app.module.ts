@@ -21,6 +21,9 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FavoritesComponent } from './favorites/favorites.component';
+import { VenueDetailsComponent } from './venue-details/venue-details.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
     DetailsNavContainerComponent,
     EventDetailsComponent,
     ArtistDetailsComponent,
+    FavoritesComponent,
+    VenueDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
 
 interface Event {
   eventName: string,
@@ -13,7 +14,7 @@ interface Event {
   templateUrl: './details-nav-container.component.html',
   styleUrls: ['./details-nav-container.component.css']
 })
-export class DetailsNavContainerComponent {
+export class DetailsNavContainerComponent implements OnInit {
   @Input() event: Event = {
     eventName: 'no name',
     dateTime: 'time',
@@ -21,8 +22,32 @@ export class DetailsNavContainerComponent {
     genre: 'genre',
     venue: 'venue'
   }
-  navigationItems = ['Event', 'Artist/Team'];
+
+  navigationItems = ['Event', 'Artist/Team', 'Venue'];
   selectedNavItem = 'Event';
+  isClicked = false
+
+  constructor(public dataService: DataService) { }
+
+  ngOnInit(): void {
+    this.isClicked = this.dataService.isFavorite()
+    this.dataService.event$.subscribe(value => {
+      this.isClicked = this.dataService.isFavorite();
+    });
+  }
+
+  // from chatgpt
+
+  onClick() {
+    this.isClicked = !this.isClicked;
+
+    if (this.isClicked) {
+      this.dataService.addFavorite()
+    }
+    else {
+      this.dataService.removeFavorite(this.dataService.getSelectedEvent().id)
+    }
+  }
 
   selectNavItem(item: string) {
     this.selectedNavItem = item;

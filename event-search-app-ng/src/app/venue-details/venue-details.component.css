@@ -1,0 +1,77 @@
+.container {
+    text-align: center;
+}
+
+h5 {
+    color: mediumaquamarine;
+    margin: 0px;
+}
+
+p {
+    color: white;
+}
+
+.show {
+    overflow: visible;
+    text-overflow: none;
+    height: auto;
+    text-align: center;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: cornflowerblue;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover {
+    text-decoration: underline;
+}
+
+.note-text {
+    height: 3rem;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+.button-hide {
+    visibility: hidden;
+}
+
+/*Using after ( if we want two lines)*/
+/* .note-field:not(.show)::after {
+    content: '...';
+    padding-left: .5rem;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+} */
+
+.note-field {
+    max-height: 3em;
+    /* 3 lines of text */
+    overflow: hidden;
+    text-align: center;
+}
+
+.note-field.show {
+    max-height: none;
+    /* Show full text */
+    text-align: center;
+}
+
+.text-truncate {
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    transition: all 1s ease-in-out;
+ }

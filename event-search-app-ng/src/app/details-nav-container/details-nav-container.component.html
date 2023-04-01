@@ -1,6 +1,11 @@
 <div class="container mb-3">
     <div class="card text-center">
-        <h3 class="card-title text-white m-4">{{event.eventName}}</h3>
+        <div class="d-flex justify-content-center">
+                <h3 class="card-title text-white m-4">{{event.eventName}}</h3>
+                <button class="click-me-button" [ngClass]="{ clicked: isClicked }" (click)="onClick()" style="background-color: white; align-self: center;" mat-icon-button>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+        </div>
         <ul class="nav justify-content-center">
             <li class="nav-item" *ngFor="let item of navigationItems" 
                 (click)="selectNavItem(item)">
@@ -13,6 +18,9 @@
             </ng-container>
             <ng-container *ngIf="selectedNavItem === 'Artist/Team'">
                 <app-artist-details></app-artist-details>
+            </ng-container>
+            <ng-container *ngIf="selectedNavItem === 'Venue'">
+                <app-venue-details></app-venue-details>
             </ng-container>
         </div>
     </div>

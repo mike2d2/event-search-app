@@ -1,0 +1,23 @@
+.no-favorites {
+    padding: 5px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    color: red;
+  }
+
+h3 {
+    color: aquamarine;
+}
+
+.table-responsive {
+    border-radius: 20px;
+}
+
+.text-center {
+    text-align: center;
+  }
+
+button {
+    padding: 0px;
+}

@@ -1,0 +1,46 @@
+<div class="container m-4">
+    <div class="row justify-content-center" style="margin-right: 2rem;">
+        <div class="col-sm">
+            <h5>Name</h5>
+            <p>{{event.venueObj.name}}</p>
+            <h5>Address</h5>
+            <p>{{event.venueObj.address}}</p>
+            <h5>Phone Number</h5>
+            <p>{{event.venueObj.phone}}</p>
+
+        </div>
+        <div class="col-sm text-center">
+            <h5>Open Hours</h5>
+            <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
+                <span class="note">{{ event.venueObj.generalRule }}</span>
+            </div> -->
+            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
+                <span class="note">{{ event.venueObj.openHours }}</span>
+            </div>
+            <button class="show-button" (click)="show = !show">
+                {{ show ? 'Show less' : 'Show more' }}
+            </button>
+            <h5>Open Hours</h5>
+            <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
+                <span class="note">{{ event.venueObj.generalRule }}</span>
+            </div> -->
+            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
+                <span class="note">{{ event.venueObj.generalRule }}</span>
+            </div>
+            <button class="show-button" (click)="show = !show">
+                {{ show ? 'Show less' : 'Show more' }}
+            </button>
+            <h5>Open Hours</h5>
+            <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
+                <span class="note">{{ event.venueObj.generalRule }}</span>
+            </div> -->
+            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
+                <span class="note">{{ event.venueObj.childRule }}</span>
+            </div>
+            <button class="show-button" (click)="show = !show">
+                {{ show ? 'Show less' : 'Show more' }}
+            </button>
+            
+        </div>
+    </div>
+</div>
