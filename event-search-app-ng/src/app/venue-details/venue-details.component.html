@@ -41,7 +41,7 @@
                 <span class="note">{{ event.venueObj.generalRule }}</span>
             </div> -->
             <div [class.show]="show3" [class.note-text]="!show3">
-                <span>{{ event.venueObj.generalRule }}</span>
+                <span>{{ event.venueObj.childRule }}</span>
             </div>
             <button class="showmore" *ngIf="show3Visible" (click)="show3Click()">
                 {{ show1 ? 'Show less' : 'Show more' }}

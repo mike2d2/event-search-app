@@ -1,5 +1,7 @@
-<div class="container mb-3">
+<div class="container m-4">
     <div class="card text-center">
+
+        <button class="back-link" (click)="goBack()"> &lt;Back </button>
         <div class="d-flex justify-content-center">
                 <h3 class="card-title text-white m-4">{{event.eventName}}</h3>
                 <button class="click-me-button" [ngClass]="{ clicked: isClicked }" (click)="onClick()" style="background-color: white; align-self: center;" mat-icon-button>

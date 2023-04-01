@@ -28,6 +28,7 @@ import { VenueDetailsComponent } from './venue-details/venue-details.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ModalComponent } from './modal/modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+
 // import { ModalComponentComponent } from './modal-component/modal-component.component';
 
 @NgModule({

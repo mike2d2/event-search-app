@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ArtistService } from '../artist.service';
 import { DataService } from '../data.service';
 
@@ -11,6 +11,8 @@ export class EventsTableComponent implements OnInit {
 
   events;
   selectedEvent;
+  @Input() isDetailsCardVisible = false;
+  visible = true
 
   constructor(public dataService: DataService, public artistService: ArtistService) { }
 
@@ -25,6 +27,8 @@ export class EventsTableComponent implements OnInit {
     this.artistService.clearArtists()
 
     this.artistService.artistSearch(this.selectedEvent.attractions.map(attraction => attraction.name))
+    this.dataService.setIsEventTableVisible(false);
+    this.dataService.setIsEventDetailsVisible(true);
   }
 
   // from chatgpt

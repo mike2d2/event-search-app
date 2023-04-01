@@ -12,7 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class EventSearchComponent implements OnInit {
 
-  event : {keyword, distance, category, location} = {keyword: 'taylor', distance: 23, category: "music", location: "908 everett st los angeles"};
+  event : {keyword, distance, category, location} = {keyword: '', distance: NaN, category: "", location: ""};
   isChecked: boolean = false;
   latitude:number = NaN;
   longitude:number = NaN;
@@ -26,6 +26,8 @@ export class EventSearchComponent implements OnInit {
   errorMsg!: string;
   minLengthTerm = 3;
   selectedMovie: any = "";
+  isEventsTableVisible = false;
+  isEventDetailsVisible = false;
 
   constructor(public dataService: DataService, private http: HttpClient) { }
 
@@ -59,6 +61,14 @@ export class EventSearchComponent implements OnInit {
         }
         console.log(this.filteredMovies);
       });
+
+      this.dataService.isEventTableVisible$.subscribe(value => {
+        this.isEventsTableVisible = value;
+      });
+
+      this.dataService.isEventDetailsVisible$.subscribe(value => {
+        this.isEventDetailsVisible = value;
+      });
   }
 
   onSelected() {
@@ -81,7 +91,7 @@ export class EventSearchComponent implements OnInit {
     this.event = {keyword: '', distance: null, category: "", location: ""};
   }
 
-  submitForm() {
+  async submitForm() {
     // if (form.valid) {
     //   console.log('Form submitted!');
     // }
@@ -91,9 +101,12 @@ export class EventSearchComponent implements OnInit {
       this.event.location = this.latitude + ',' + this.longitude
     }
     
-    this.dataService.eventSearch(this.event);
+    await this.dataService.eventSearch(this.event);
 
-    this.event = {keyword: 'taylor', distance: 23, category: "music", location: "908 everett st los angeles"} //{keyword: '', distance: null, category: "", location: ""};
+    this.event = {keyword: '', distance: NaN, category: "", location: ""} //{keyword: '', distance: null, category: "", location: ""};
+
+    this.dataService.setIsEventTableVisible(true);
+    this.dataService.setIsEventDetailsVisible(false);
   }
 
   getSuggestions(): void {
@@ -117,9 +130,8 @@ export class EventSearchComponent implements OnInit {
     this.event.distance = this.defaultDist
     this.event.location = ''
     this.event.keyword = ''
-
-    // Reset form values here
-    // For example: this.myForm.reset();
+    this.dataService.setIsEventTableVisible(false);
+    this.dataService.setIsEventDetailsVisible(false);
   }
 
   onCheckboxChange(event) {
@@ -129,11 +141,13 @@ export class EventSearchComponent implements OnInit {
         navigator.geolocation.getCurrentPosition(position => {
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
+          this.event.location = this.latitude + ',' + this.longitude;
         });
       } else {
         console.log("Geolocation is not supported by this browser.");
       }
     } else {
+      this.event.location = ''
       this.latitude = NaN;
       this.longitude = NaN;
     }

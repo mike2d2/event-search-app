@@ -32,6 +32,7 @@ export class ArtistDetailsComponent implements OnInit {
   artists: Artist[] = [];
   // artist: any;
   spotifyImgUrl = 'https://e7.pngegg.com/pngimages/152/944/png-clipart-spotify-icon-spotify-music-playlist-computer-icons-streaming-media-spotify-text-logo.png'
+  showArtistTeam = true;
 
   constructor(public artistService: ArtistService, public dataService: DataService) {}
   ngOnInit(): void {
@@ -43,6 +44,17 @@ export class ArtistDetailsComponent implements OnInit {
     });
     this.artists = this.artistService.getArtists()
     // this.artist = this.artists[0]
+
+    this.dataService.event$.subscribe(value => {
+      this.event = value;
+      if (this.event.segment == 'Music') {
+        // this.navigationItems.splice(1, 0, 'Artist/Team');
+        this.showArtistTeam = true
+      }
+      else {
+        this.showArtistTeam = false
+      }
+    });
   }
 
   updateArtists(): void {

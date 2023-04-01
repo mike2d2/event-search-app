@@ -1,0 +1,24 @@
+.mat-progress-spinner{
+    color: red;
+    height: 50;
+  }
+
+  .mat-spinner::ng-deep circle {
+    stroke: #f00a0a;
+  }
+
+h5 {
+    color: aquamarine;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.no-artist {
+    padding: 5px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    color: red;
+  }

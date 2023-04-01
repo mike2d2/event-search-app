@@ -53,7 +53,7 @@ const events = [
 
 // for spotify
 var clientId = 'ba6e5e910c644dbfa6775bd81349dde8',
-clientSecret = 'ee670e03f859461b80222a072a20898a';
+  clientSecret = 'ee670e03f859461b80222a072a20898a';
 
 // Create the api object with the credentials
 var spotifyApi = new SpotifyWebApi({
@@ -118,7 +118,7 @@ function buildResponse(res) {
       let albumInfo = []
       for (album of albums) {
         imageUrl = album.images[0].url
-        albumInfo.push({imageUrl: imageUrl})
+        albumInfo.push({ imageUrl: imageUrl })
       }
 
       let artist_response = {
@@ -132,7 +132,7 @@ function buildResponse(res) {
       }
       res.json(artist_response)
       return
-      
+
     }, function (err) {
       console.error(err);
     });
@@ -154,107 +154,115 @@ app.get('/getEventbyId', async (req, res) => {
 
 app.get('/getEvents', async (req, res) => {
 
-  const { keyword, location, category, distance } = req.query;
+  try {
+    const { keyword, location, category, distance } = req.query;
 
-  if (location == 'NaN,NaN') {
-    res.json([]);
-    return
-  }
-
-
-  if (location) {
-    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
-    const { data } = response;
-    var { location: { lat, lng } } = data.results.length > 0 ? data.results[0].geometry : null;
-    lat = lat ?? null
-    lng = lng ?? null
-    // latlon = `${lat},${lng}`;
-  } else {
-    lat = null;
-    lon = null
-  } 
-
-  const tmEventQueryUrl = tmEventUrlBuilder(keyword, lat, lng, category, distance);
-  const response = await axios.get(tmEventQueryUrl);
-  const { data } = response;
-
-  let events;
-  if (data.page.totalElements === 0) {
-    events = '[]';
-  } else {
-    events = [] // data._embedded.events;
-    for (let event of data._embedded.events) {
-
-      try {
-        var price = event.priceRanges[0].min + '-' + event.priceRanges[0].max;
-      } catch {
-        var price = 'no price available'
-      }
-      attractions = []
-      if (event._embedded.attractions) {
-        for (let attraction of event._embedded.attractions) {
-          attractions.push({
-            id: attraction.id,
-            name: attraction.name
-          })
-        }
-      } else {
-        console.log('no events found for ' + event.name)
-      }
-
-      venue = {}
-      if (event._embedded.venues) {
-        v = event._embedded.venues[0]
-        venue = {
-          id: v.id,
-          name: v.name,
-          address: v.address?.line1 + ', ' + v.city?.name + ', ' + v.state?.name ,
-          phone: v.boxOfficeInfo?.phoneNumberDetail ?? '',
-          openHours: v.boxOfficeInfo?.openHoursDetail ?? '',
-          generalRule: v.generalInfo?.generalRule ?? '',
-          childRule: v.generalInfo?.childRule ?? '',
-          lat: '',
-          lon: '',
-        }
-      }
-      
-      
-      if (venue.address) {
-        const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${venue.address}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
-        const { data } = response;
-        var { location: { lat, lng } } = data.results.length > 0 ? data.results[0].geometry : null;
-        lat = lat ?? null
-        lng = lng ?? null
-        // latlon = `${lat},${lng}`;
-      } else {
-        lat = null;
-        lon = null
-      } 
-      venue.lat = lat
-      venue.lon = lng
-
-      events.push({
-        id: event.id ?? '',
-        eventName: event.name ?? '',
-        dateTime: event.dates.start.dateTime ?? '',
-        date: event.dates.start.localDate ?? '',
-        time: event.dates.start.localTime ?? '',
-        iconUrl: event.images.length > 0 ? event.images[0].url : '',
-        genre: event.classifications.length > 0 ? event.classifications[0].genre.name : '',
-        venue: event._embedded.venues.length > 0 ? event._embedded.venues[0].name : '',
-        seatmapUrl: event.seatmap?.staticUrl ?? '',
-        artistTeam: event._embedded.attractions?.length > 0 ? event._embedded.attractions[0].name ?? '' : '',
-        nameSegSubGenre: event.classifications[0].genre.name ?? '' + ' | ' + event.classifications[0].segment.name ?? '' + ' | ' + event.classifications[0].subGenre.name ?? '',
-        price: price ?? '',
-        status: event.dates.status.code ?? '',
-        buyUrl: event.url ?? '',
-        attractions: attractions,
-        venueObj: venue
-      })
+    if (location == 'NaN,NaN') {
+      res.json([]);
+      return
     }
+
+
+    if (location) {
+      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
+      const { data } = response;
+      var { location: { lat, lng } } = data.results.length > 0 ? data.results[0].geometry : null;
+      lat = lat ?? null
+      lng = lng ?? null
+      // latlon = `${lat},${lng}`;
+    } else {
+      lat = null;
+      lon = null
+    }
+
+    const tmEventQueryUrl = tmEventUrlBuilder(keyword, lat, lng, category, distance);
+    const response = await axios.get(tmEventQueryUrl);
+    const { data } = response;
+
+    let events;
+    if (data.page.totalElements === 0) {
+      events = [];
+    } else {
+      events = [] // data._embedded.events;
+      for (let event of data._embedded.events) {
+
+        try {
+          var price = event.priceRanges[0].min + '-' + event.priceRanges[0].max;
+        } catch {
+          var price = 'no price available'
+        }
+        attractions = []
+        if (event._embedded.attractions) {
+          for (let attraction of event._embedded.attractions) {
+            attractions.push({
+              id: attraction.id,
+              name: attraction.name
+            })
+          }
+        } else {
+          console.log('no events found for ' + event.name)
+        }
+
+        venue = {}
+        if (event._embedded.venues) {
+          v = event._embedded.venues[0]
+          venue = {
+            id: v.id,
+            name: v.name,
+            address: v.address?.line1 + ', ' + v.city?.name + ', ' + v.state?.name,
+            phone: v.boxOfficeInfo?.phoneNumberDetail ?? '',
+            openHours: v.boxOfficeInfo?.openHoursDetail ?? '',
+            generalRule: v.generalInfo?.generalRule ?? '',
+            childRule: v.generalInfo?.childRule ?? '',
+            lat: '',
+            lon: '',
+          }
+        }
+
+
+        if (venue.address) {
+          const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${venue.address}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
+          const { data } = response;
+          var { location: { lat, lng } } = data.results.length > 0 ? data.results[0].geometry : null;
+          lat = lat ?? null
+          lng = lng ?? null
+          // latlon = `${lat},${lng}`;
+        } else {
+          lat = null;
+          lon = null
+        }
+        venue.lat = lat
+        venue.lon = lng
+
+        events.push({
+          id: event.id ?? '',
+          eventName: event.name ?? '',
+          dateTime: event.dates.start.dateTime ?? '',
+          date: event.dates.start.localDate ?? '',
+          time: event.dates.start.localTime ?? '',
+          iconUrl: event.images.length > 0 ? event.images[0].url : '',
+          genre: event.classifications.length > 0 ? event.classifications[0].genre.name : '',
+          segment: event.classifications.length > 0 ? event.classifications[0].segment.name : '',
+          venue: event._embedded.venues.length > 0 ? event._embedded.venues[0].name : '',
+          seatmapUrl: event.seatmap?.staticUrl ?? '',
+          artistTeam: event._embedded.attractions?.length > 0 ? event._embedded.attractions[0].name ?? '' : '',
+          nameSegSubGenre: event.classifications[0].genre.name ?? '' + ' | ' + event.classifications[0].segment.name ?? '' + ' | ' + event.classifications[0].subGenre.name ?? '',
+          price: price ?? '',
+          status: event.dates.status.code ?? '',
+          buyUrl: event.url ?? '',
+          attractions: attractions,
+          venueObj: venue
+        })
+      }
+    }
+
+    res.json(events);
+  }
+  catch {
+    res.json([]);
   }
 
-  res.json(events);
+
 });
 
 

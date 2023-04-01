@@ -1,4 +1,5 @@
 <div class="container">
+    <div *ngIf="event.segment === 'Music'; else noArtist">
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             <li data-bs-target="#carouselExampleControls" *ngFor="let artist of artists; let i = index"
@@ -16,21 +17,29 @@
                     <div *ngFor="let artist of artists; let i = index" [class.active]="i === 0" class="carousel-item">
                         <div class="row align-items-center m-3">
                             <div class="col justify-content-center">
-                                <img [src]="artist.artistImgUrl" class="img-fluid">
-                                <h4>{{artist.artistName}}</h4>
+                                <img [src]="artist.artistImgUrl" class="img-fluid img-circle">
+                                <h4 style="color: aquamarine;">{{artist.artistName}}</h4>
                             </div>
                             <div class="col">
                                 <h5>Popularity</h5>
-                                <p>{{artist.popularity}}</p>
+                                <!-- <mat-progress-spinner color="warn" diameter="50" class="mat-progress-spinner" mode="determinate" [value]="artist.popularity">
+
+                                </mat-progress-spinner> -->
+                                <div style="position: relative; display: inline-block;">
+                                    <mat-progress-spinner color="warn" diameter="60" mode="determinate" [value]="artist.popularity"></mat-progress-spinner>
+                                    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: white;">{{artist.popularity}}</span>
+                                </div>
+                                <!-- <div style="position:relative; top: -60px; left: 30px;">{{artist.popularity}}</div> -->
+
                             </div>
                             <div class="col">
                                 <h5>Followers</h5>
-                                <p>{{artist.followers}}</p>
+                                <h6 style="color: white;">{{artist.followers}}</h6>
                             </div>
                             <div class="col">
                                 <h5>Spotify Link</h5>
                                 <a href="{{artist.spotifyUrl}}" target="_blank">
-                                    <img class="img-fluid border-0" style="width: 50%;" src="./assets/spotify_icon.png">
+                                    <img class="img-fluid border-0" style="width: 50%; max-width: 50px;" src="./assets/spotify_icon.png">
                                 </a>
                             </div>
                         </div>
@@ -51,5 +60,9 @@
         </div>
 
     </div>
+</div>
+<ng-template #noArtist>
+    <div class="no-artist m-5">No music related artist to show</div>
+</ng-template>
 
 </div>

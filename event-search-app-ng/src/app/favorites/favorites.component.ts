@@ -17,6 +17,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   removeEvent(eventId: string) {
+    confirm("Event Removed from Favorites! ")
     this.dataService.removeFavorite(eventId)
     this.events = this.dataService.favoriteEvents
   }
