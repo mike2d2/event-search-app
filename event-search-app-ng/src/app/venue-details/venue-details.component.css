@@ -18,7 +18,7 @@ p {
     text-align: center;
 }
 
-button {
+button.showmore {
     background: none;
     border: none;
     padding: 0;
@@ -34,9 +34,12 @@ button:hover {
 .note-text {
     height: 3rem;
     overflow: hidden;
-    display: inline-block;
     position: relative;
     text-align: center;
+}
+
+span {
+    color: white;
 }
 
 .button-hide {
@@ -75,3 +78,7 @@ button:hover {
     -webkit-box-orient: vertical;
     transition: all 1s ease-in-out;
  }
+
+ .modal {
+    z-index: 10000 !important ; /* or a higher value if needed */
+  }

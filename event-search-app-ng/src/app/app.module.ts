@@ -25,6 +25,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { VenueDetailsComponent } from './venue-details/venue-details.component';
 
+import { GoogleMapsModule } from '@angular/google-maps';
+import { ModalComponent } from './modal/modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+// import { ModalComponentComponent } from './modal-component/modal-component.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +44,7 @@ import { VenueDetailsComponent } from './venue-details/venue-details.component';
     ArtistDetailsComponent,
     FavoritesComponent,
     VenueDetailsComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +57,9 @@ import { VenueDetailsComponent } from './venue-details/venue-details.component';
     MatAutocompleteModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    GoogleMapsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

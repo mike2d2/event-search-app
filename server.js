@@ -202,7 +202,39 @@ app.get('/getEvents', async (req, res) => {
         console.log('no events found for ' + event.name)
       }
 
+      venue = {}
+      if (event._embedded.venues) {
+        v = event._embedded.venues[0]
+        venue = {
+          id: v.id,
+          name: v.name,
+          address: v.address?.line1 + ', ' + v.city?.name + ', ' + v.state?.name ,
+          phone: v.boxOfficeInfo?.phoneNumberDetail ?? '',
+          openHours: v.boxOfficeInfo?.openHoursDetail ?? '',
+          generalRule: v.generalInfo?.generalRule ?? '',
+          childRule: v.generalInfo?.childRule ?? '',
+          lat: '',
+          lon: '',
+        }
+      }
+      
+      
+      if (venue.address) {
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${venue.address}&key=AIzaSyAm3VJvi7C40nB89kqKdoMpmXEQWpvzjFo`);
+        const { data } = response;
+        var { location: { lat, lng } } = data.results.length > 0 ? data.results[0].geometry : null;
+        lat = lat ?? null
+        lng = lng ?? null
+        // latlon = `${lat},${lng}`;
+      } else {
+        lat = null;
+        lon = null
+      } 
+      venue.lat = lat
+      venue.lon = lng
+
       events.push({
+        id: event.id ?? '',
         eventName: event.name ?? '',
         dateTime: event.dates.start.dateTime ?? '',
         date: event.dates.start.localDate ?? '',
@@ -216,13 +248,15 @@ app.get('/getEvents', async (req, res) => {
         price: price ?? '',
         status: event.dates.status.code ?? '',
         buyUrl: event.url ?? '',
-        attractions: attractions
+        attractions: attractions,
+        venueObj: venue
       })
     }
   }
 
   res.json(events);
 });
+
 
 // used chatgpt for this code
 app.get('/api/suggest/', async (req, res) => {

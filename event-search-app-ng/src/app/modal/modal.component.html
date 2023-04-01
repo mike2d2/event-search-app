@@ -1,0 +1,32 @@
+<!-- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">GeeksForGeeks</h4>
+            </div>
+            <div class="modal-body">
+                <google-map></google-map>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closePopup()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- <h1 mat-dialog-title>{{ data.title }}</h1>
+    <div mat-dialog-content>
+      <p>{{ data.content }}</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Close</button>
+</div> -->
+
+<h2 mat-dialog-title>Google Map</h2>
+<div mat-dialog-content>
+  <div #mapContainer style="height: 350px;"></div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="background-color: black; color: white;" (click)="onClose()">Close</button>
+</div>

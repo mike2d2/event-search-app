@@ -14,33 +14,64 @@
             <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
                 <span class="note">{{ event.venueObj.generalRule }}</span>
             </div> -->
-            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
-                <span class="note">{{ event.venueObj.openHours }}</span>
+            <div [class.show]="show1" [class.note-text]="!show1">
+                <span>{{ event.venueObj.openHours }}</span>
             </div>
-            <button class="show-button" (click)="show = !show">
-                {{ show ? 'Show less' : 'Show more' }}
+            <button class="showmore" *ngIf="show1Visible" (click)="show1Click()">
+                {{ show1 ? 'Show less' : 'Show more' }}
             </button>
-            <h5>Open Hours</h5>
+            <span style="color: white;" *ngIf="show1Visible && show1">&#94;</span>
+            <span style="color: white;" *ngIf="show1Visible && !show1">&#8964;</span>
+
+            <h5>General Rule</h5>
             <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
                 <span class="note">{{ event.venueObj.generalRule }}</span>
             </div> -->
-            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
-                <span class="note">{{ event.venueObj.generalRule }}</span>
+            <div [class.show]="show2" [class.note-text]="!show2">
+                <span>{{ event.venueObj.generalRule }}</span>
             </div>
-            <button class="show-button" (click)="show = !show">
-                {{ show ? 'Show less' : 'Show more' }}
+            <button class="showmore" *ngIf="show2Visible" (click)="show2Click()">
+                {{ show1 ? 'Show less' : 'Show more' }}
             </button>
-            <h5>Open Hours</h5>
+            <span style="color: white;" *ngIf="show2Visible && show2">&#94;</span>
+            <span style="color: white;" *ngIf="show2Visible && !show2">&#8964;</span>
+
+            <h5>Child Rule</h5>
             <!-- <div #content class="note-field" [class.show]="show" [class.note-text]="content.scrollHeight > 18">
                 <span class="note">{{ event.venueObj.generalRule }}</span>
             </div> -->
-            <div #content class="note-field" [class.show]="show" [class.note-text]="!show">
-                <span class="note">{{ event.venueObj.childRule }}</span>
+            <div [class.show]="show3" [class.note-text]="!show3">
+                <span>{{ event.venueObj.generalRule }}</span>
             </div>
-            <button class="show-button" (click)="show = !show">
-                {{ show ? 'Show less' : 'Show more' }}
+            <button class="showmore" *ngIf="show3Visible" (click)="show3Click()">
+                {{ show1 ? 'Show less' : 'Show more' }}
             </button>
-            
+            <span style="color: white;" *ngIf="show3Visible && show3">&#94;</span>
+            <span style="color: white;" *ngIf="show3Visible && !show3">&#8964;</span>
         </div>
+
+        <!-- https://www.geeksforgeeks.org/how-to-make-a-bootstrap-modal-popup-in-angular-9-8/# -->
+        <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-danger btn-sm" (click)="openModal()">Show Venue on Google Map
+        </button>
+    </div>
     </div>
 </div>
+
+<!-- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">GeeksForGeeks</h4>
+            </div>
+            <div class="modal-body">
+                <google-map></google-map>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closePopup()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
