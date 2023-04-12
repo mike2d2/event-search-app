@@ -6,5 +6,3 @@ Created for HW8 in Web Technologies
 Typescript, Angular frontent
 
 NodeJS backend. Currently running on Google Cloud Platform here: https://cs571-hw8-380820.wl.r.appspot.com/
-
-searches events in local area
