@@ -1,7 +1,7 @@
 # event-search-app
 
 Search Events in local area, click on row to see more, view artist info, spotify link, and venue info. 
-Created for HW8 in Web Technologies
+Created from scratch for class
 
 Typescript, Angular frontent
 
